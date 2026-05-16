@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>哈爾濱11日遊地圖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans TC',system-ui,sans-serif}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+.hd{background:linear-gradient(135deg,#2a1f17,#4a352a);color:#fff;padding:10px 12px;flex-shrink:0;border-bottom:2px solid rgba(232,168,56,.3);z-index:900}
+.hd-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.hd h1{font-size:15px;font-weight:700;letter-spacing:1px;line-height:1.3}
+.hd .sub{font-size:10px;opacity:.6;margin-top:2px}
+.cost{background:linear-gradient(135deg,#d4a853,#b8892e);border-radius:8px;padding:4px 10px;text-align:center;flex-shrink:0}
+.cost .cl{font-size:8px;opacity:.8}.cost .cp{font-size:15px;font-weight:700}
+.fb{display:flex;gap:4px;margin-top:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;scrollbar-width:none}
+.fb::-webkit-scrollbar{display:none}
+.db{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:rgba(255,255,255,.65);padding:5px 11px;border-radius:16px;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;transition:all .15s;-webkit-appearance:none}
+.db:active{transform:scale(.95)}
+.db.on{background:linear-gradient(135deg,#e8a838,#d4943d);color:#2a1f17;font-weight:700;border-color:transparent}
+#map{flex:1;z-index:1}
+.leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:0 8px 30px rgba(0,0,0,.2)!important;padding:0!important;overflow:hidden;border:none!important}
+.leaflet-popup-content{margin:0!important;width:auto!important;min-width:0!important;max-width:none!important}
+.leaflet-popup-close-button{color:#fff!important;font-size:24px!important;top:4px!important;right:8px!important;text-shadow:0 1px 3px rgba(0,0,0,.3);z-index:10;width:30px!important;height:30px!important;line-height:30px!important}
+.ph{padding:12px 14px 8px;color:#fff}
+.ph .dt{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:8px;background:rgba(255,255,255,.2);margin-bottom:4px}
+.ph h3{font-size:15px;font-weight:700;line-height:1.3}
+.pb{padding:8px 14px 12px;max-height:55vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pb::-webkit-scrollbar{width:3px}.pb::-webkit-scrollbar-thumb{background:#ccc;border-radius:2px}
+.pb p{font-size:12px;color:#4a4038;line-height:1.7;margin:0 0 6px}
+.ps{margin-top:6px;padding:7px 9px;border-radius:7px;font-size:11px;line-height:1.6}
+.ps b{display:block;margin-bottom:2px;font-size:11.5px}
+.ps-s{background:#eef6ff;color:#2a5a8c;border:1px solid rgba(42,90,140,.08)}
+.ps-e{background:#fdf6e3;color:#8a6510;border:1px solid rgba(160,117,32,.08)}
+.ps-t{background:#f0faf0;color:#2a6a3a;border:1px solid rgba(42,106,58,.08)}
+.cp2{display:flex;align-items:center;justify-content:center;border-radius:50%;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.3);cursor:pointer}
+.lgd{position:absolute;bottom:10px;left:10px;z-index:800;background:rgba(255,255,255,.92);border-radius:10px;padding:8px 12px;box-shadow:0 2px 12px rgba(0,0,0,.08);font-size:10px;color:#5a4e42;line-height:1.9}
+.lgd h4{font-size:11px;font-weight:700;color:#3d2b1f;margin-bottom:2px}
+.lr{display:flex;align-items:center;gap:5px}
+.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0;border:1px solid rgba(0,0,0,.1)}
+.zc{position:absolute;top:10px;right:10px;z-index:800;display:flex;flex-direction:column;gap:4px}
+.zb{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.08);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.08);color:#3d2b1f;font-family:inherit;-webkit-appearance:none}
+.zb:active{background:#eee;transform:scale(.95)}
+@media(min-width:600px){.hd h1{font-size:18px}.leaflet-popup-content{min-width:280px!important;max-width:330px!important}}
+@media(max-width:599px){.leaflet-popup-content{max-width:calc(100vw - 60px)!important}.lgd{bottom:6px;left:6px;padding:6px 10px;font-size:9px}}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="hd">
+  <div class="hd-row">
+    <div><h1>🗺️ 哈爾濱·齊齊哈爾·五大連池 11日遊</h1><div class="sub">2026.5.21–5.31 ｜台灣12位旅人</div></div>
+    <div class="cost"><div class="cl">每人</div><div class="cp">¥6,450</div></div>
+  </div>
+  <div class="fb" id="fb"></div>
+</div>
+<div id="map" style="position:relative">
+  <div class="lgd"><h4>📋 圖例</h4><div class="lr"><div class="ld" style="background:#e74c3c"></div>哈爾濱</div><div class="lr"><div class="ld" style="background:#2c3e50"></div>齊齊哈爾</div><div class="lr"><div class="ld" style="background:#e67e22"></div>五大連池</div><div class="lr"><div class="ld" style="background:#c4943d"></div>阿城周邊</div><div class="lr"><span style="color:#c0392b;font-size:12px">---</span>行車路線</div></div>
+  <div class="zc"><button class="zb" onclick="map.zoomIn()">＋</button><button class="zb" onclick="map.zoomOut()">－</button><button class="zb" style="font-size:14px" onclick="resetMap()">↺</button></div>
+</div>
+</div>
+<script>
+var S=[
+{n:"哈爾濱太平機場",lat:45.625,lng:126.245,e:"✈️",c:"#7f8c8d",d:[1,11],dl:"Day 1 & 11",desc:"黑龍江省最大機場，距市區約35公里。全程安排考斯特專車接送機＋行李運送車。",see:"<b>👀 必知</b>機場到市區車程約40分鐘。Day 11 根據航班時間彈性送機。",eat:"",tip:"<b>💡 提醒</b>5月哈爾濱10-22°C，早晚溫差大，下飛機加件薄外套！"},
+{n:"繁花一宿酒店（大本營）",lat:45.778,lng:126.678,e:"🏨",c:"#e74c3c",d:[1,2,5,6,7,8,9,10],dl:"Day 1-2, 5-10",desc:"旅程溫暖大本營！11天有8晚住這裡，早餐在「晨禾餐廳」，有素食選項。",see:"<b>👀 住宿亮點</b>每天從這出發探索不同景點，傍晚回到溫暖的家。",eat:"<b>🍽️ 晚餐精選</b>桃花源記音樂中餐廳（邊聽演奏邊吃）、俄式西餐廳（紅菜湯、罐燜牛肉）、山河屯鐵鍋燉（圍灶台吃大鍋菜超有氛圍！）、臻馨火鍋⋯幾乎不重複！",tip:"<b>💡 提醒</b>東北空氣乾燥，帶保濕品和潤唇膏！室內暖氣足，注意溫差。"},
+{n:"東北虎林園",lat:45.810,lng:126.535,e:"🐯",c:"#f39c12",d:[2],dl:"Day 2",desc:"世界最大東北虎繁育基地！數百隻東北虎，還有白虎、獅子、獅虎獸、美洲豹等。分車行區和步行區。",see:"<b>👀 必看</b>① 搭觀光車穿越虎群（含電瓶車）② 餵食表演超震撼 ③ 步行區看幼虎、餵羊駝兔子 ④ 門口免費科普陳列館",eat:"<b>🍽️ 當日</b>午：外婆小廚融合菜（有素食）｜晚：桃花源記音樂中餐廳或隱溪小館",tip:"<b>💡 Tips</b>建議早上去，老虎比較活躍！下午多在睡覺。車上可買肉餵虎（20元/塊）。"},
+{n:"哈爾濱大劇院",lat:45.838,lng:126.528,e:"🎭",c:"#9b59b6",d:[2],dl:"Day 2",desc:"MAD建築事務所設計的松北文化地標，靈感源自冰雪與松花江，流線造型如雪地中生長的白色有機體。",see:"<b>👀 必看</b>① 建築本身就是最大看點，白色曲線超夢幻 ② 頂部觀景平台可俯瞰松花江濕地 ③ 拍照聖地！",eat:"",tip:"<b>💡 Tips</b>外觀免費拍照，內部需購票。預留30-40分鐘。"},
+{n:"大世界夢幻冰雪館",lat:45.821,lng:126.521,e:"❄️",c:"#3498db",d:[2],dl:"Day 2",desc:"冰雪大世界全年開放室內館！恆溫-15°C，精美冰雕雪雕冰燈，融合燈光特效與互動體驗。夏天也能玩雪！",see:"<b>👀 必看</b>① 大型冰雕在彩色燈光下晶瑩剔透 ② 冰滑梯超好玩 ③ 360°冰雕拍照區 ④ 四季都能體驗冰雪世界",eat:"<b>🍽️ 哈爾濱必吃</b>馬迭爾冰棍（1906年創立，5元/支）、鍋包肉（酸甜酥脆代表菜）、秋林紅腸、大列巴麵包",tip:"<b>💡 Tips</b>館內-15°C會提供棉衣，自備圍巾手套更好。暖寶寶貼手機背面防掉電！"},
+{n:"紮龍自然保護區",lat:47.208,lng:124.249,e:"🦩",c:"#27ae60",d:[3],dl:"Day 3",desc:"中國第一個丹頂鶴保護區，「丹頂鶴的故鄉」。全球2000多隻丹頂鶴，數百隻在此繁衍。面積2100平方公里。",see:"<b>👀 必看</b>① 丹頂鶴放飛表演——數十隻同時起飛超壯觀！（含電瓶車）② 近距離觀察丹頂鶴、白枕鶴 ③ 5月綠意盎然最佳季節 ④ 帶長焦鏡頭",eat:"<b>🍽️ 當日</b>午：米家烤肉/呂屯一頭牛烤肉（東北大口吃肉！）｜晚：蔔味樓清真菜",tip:"<b>💡 Tips</b>放飛表演有固定時間，提前確認。5月蚊蟲多帶防蚊液！"},
+{n:"齊齊哈爾市區",lat:47.345,lng:123.968,e:"🏙️",c:"#2c3e50",d:[3],dl:"Day 3 住宿",desc:"黑龍江第二大城「鶴城」，達斡爾語意「天然牧場」。嫩江穿城而過，從哈爾濱約300公里。",see:"<b>👀 特色</b>東北豪邁城市風情＋嫩江江景＋齊齊哈爾烤肉全國聞名",eat:"<b>🍽️ 必吃</b>齊齊哈爾烤肉！自己炭火烤牛羊肉，蘸料簡單吃原味。蔔味樓清真菜也是名店。",tip:"<b>💡 Tips</b>住四鑽酒店。比哈爾濱更冷注意保暖。"},
+{n:"世界地質公園博物館",lat:48.745,lng:126.085,e:"🌋",c:"#e67e22",d:[4],dl:"Day 4",desc:"五大連池火山奇觀「第一課堂」。14座火山、5個熔岩堰塞湖，「天然火山博物館」。",see:"<b>👀 必看</b>① 14座火山形成史（最近噴發1719-1721年！）② 火山岩石標本模型 ③ 互動展覽",eat:"<b>🍽️ 當日</b>午：江滿秋青花椒烤魚｜晚：桃花十裏小酒館/老式銅鍋涮肉",tip:"<b>💡 Tips</b>五大連池酒店贈送溫泉門票（視天氣），晚上泡溫泉超放鬆！"},
+{n:"北飲泉",lat:48.733,lng:126.102,e:"💧",c:"#16a085",d:[4],dl:"Day 4",desc:"天然含氣冷礦泉，富含礦物質，口感帶鐵鏽味和氣泡感，像天然礦泉氣泡水。據說有養生功效。",see:"<b>👀 體驗</b>① 親自品嘗！口感很特別 ② 泉眼旁各色礦物沉澱適合拍照 ③ 火山地貌與森林形成對比",eat:"",tip:"<b>💡 Tips</b>泉水約2-4°C超涼，腸胃敏感少量品嘗！帶杯子別猛灌。"},
+{n:"老黑山/龍門石寨",lat:48.720,lng:126.120,e:"🪨",c:"#555",d:[5],dl:"Day 5",desc:"中國最年輕火山！海拔515.9米，黑色浮石山體。龍門石寨30萬年前火山噴發，巨型熔岩如古城堡。",see:"<b>👀 必看</b>① 登火山口俯瞰壯觀地貌 ② 木棧道穿越熔岩石海 ③ 石縫頑強植物 ④ 贈送溫泊遊船（視天氣）",eat:"<b>🍽️ 當日</b>午：全民野生活魚豆腐宴（礦泉水養的魚超鮮！）｜晚回哈爾濱：六喜宴/臻馨火鍋",tip:"<b>💡 Tips</b>木棧道1-2小時穿防滑鞋。車程長(~350km)可在車上休息。"},
+{n:"紅磚街早市",lat:45.770,lng:126.635,e:"🥟",c:"#e74c3c",d:[6],dl:"Day 6 早上",desc:"東北煙火氣爆棚的「網紅」打卡早市！攤販叫賣、各種東北早餐小吃琳瑯滿目。",see:"<b>👀 體驗</b>最道地東北早市文化＋攤位拍照超有煙火氣＋旁邊就是道里菜市場",eat:"<b>🍽️ 必吃</b>① 煎餅果子 ② 包子油條豆漿 ③ 肉蛋堡 ④ 干炸里脊 ⑤ 凍梨汁 ⑥ 秋林格瓦斯（俄式麵包味汽水）",tip:"<b>💡 Tips</b>今天早餐自理在早市吃！7:30前到，太晚好東西賣完。"},
+{n:"中華巴洛克風景區",lat:45.774,lng:126.656,e:"🏛️",c:"#8e44ad",d:[6],dl:"Day 6",desc:"中國最大最完整「中華巴洛克」建築群。外部歐洲巴洛克浮雕，內部中式四合院。曾是哈爾濱工商業發源地。",see:"<b>👀 必看</b>① 中西合璧超獨特 ② 百年建築內文創店咖啡館 ③ 市井文化活化石 ④ 隨便拍都出片",eat:"",tip:""},
+{n:"聖索菲亞教堂",lat:45.771,lng:126.651,e:"⛪",c:"#8e44ad",d:[6],dl:"Day 6",desc:"1907年建拜占庭風格教堂，洋蔥頭穹頂高48.55米，遠東最大東正教堂之一，哈爾濱地標。現為建築藝術館。",see:"<b>👀 必看</b>① 洋蔥頭穹頂必拍！② 夜晚燈光更夢幻 ③ 廣場常有音樂表演和鴿子 ④ 內部門票便宜",eat:"<b>🍽️ 周邊</b>對面道里菜市場有干炸里脊、南瓜餅等地道小吃。",tip:"<b>💡 Tips</b>傍晚日落和燈光初上最美人也少。"},
+{n:"中央大街&防洪紀念塔",lat:45.778,lng:126.622,e:"🚶",c:"#8e44ad",d:[6],dl:"Day 6",desc:"始建於1898年，全長1400米，亞洲最長商業步行街。71座歐式建築，「建築歷史博物館」。防洪紀念塔紀念1957年大洪水。",see:"<b>👀 必看</b>① 百年石頭路面＋建築長廊 ② 馬迭爾賓館百年法式建築 ③ 防洪塔旁眺望松花江 ④ 晚上燈光璀璨有街頭音樂",eat:"<b>🍽️ 必吃</b>① 馬迭爾冰棍（1906年，5元/支）② 秋林紅腸（認準「秋林里道斯」「哈肉聯」）③ 大列巴 ④ 鍋包肉 ⑤ 塔道斯西餐廳（1901年，紅菜湯罐燜牛肉）<br>午：三八飯店/宴賓樓｜晚：俄式西餐廳/宏達老菜館",tip:"<b>💡 Tips</b>部分餐廳有「遊客價」去本地人分店。買紅腸認準老字號！"},
+{n:"千鶴島風景區",lat:45.916,lng:126.386,e:"🦢",c:"#16a085",d:[7],dl:"Day 7",desc:"蘆葦沼澤中的鶴鳥天堂。春秋丹頂鶴、白枕鶴、蓑羽鶴群聚，觀鳥攝影「聖地」。原始蘆葦蕩生態自然。",see:"<b>👀 必看</b>① 含遊船穿越蘆葦蕩近距離觀水鳥 ② 5月鶴類繁殖季 ③ 蘆葦蕩風光隨手拍都是壁紙 ④ 比紮龍更原始安靜",eat:"<b>🍽️ 當日</b>午：千鶴島景區｜晚：辛氏火爐",tip:"<b>💡 Tips</b>帶防曬防蚊液！攝影帶長焦200mm+。"},
+{n:"伏爾加莊園",lat:45.672,lng:127.022,e:"🏰",c:"#27ae60",d:[8],dl:"Day 8",desc:"俄羅斯文化主題大莊園。異地重建經典俄式建築：聖尼古拉教堂（原地標已毀）、巴甫洛夫城堡等，露天俄式建築博物館。",see:"<b>👀 必看</b>① 聖尼古拉教堂精確復刻 ② 巴甫洛夫城堡如莫斯科郊外 ③ 阿什河畔俄式風情 ④ 拍婚紗照熱門地",eat:"<b>🍽️ 當日</b>午：莊園內俄式午餐｜晚：山河屯鐵鍋燉（大鐵鍋燉大鵝配玉米餅，圍灶台超有氛圍！）",tip:"<b>💡 Tips</b>莊園很大穿舒適鞋。5月綠意盎然最佳拍照季。"},
+{n:"金上京歷史博物館",lat:45.545,lng:126.963,e:"📜",c:"#c4943d",d:[9],dl:"Day 9",desc:"全國唯一金代（1115-1234）歷史博物館。展示女真族建金朝興衰，國家一級博物館。",see:"<b>👀 必看</b>① 含專業講解！完顏阿骨打建國傳奇 ② 金代金銀器、銅鏡、陶瓷 ③ 建築融合金代風格",eat:"<b>🍽️ 當日</b>午：洪億峰殺豬菜（東北農家必吃！酸菜血腸五花肉一鍋燉）",tip:""},
+{n:"平山神鹿旅遊區",lat:45.430,lng:127.115,e:"🦌",c:"#c4943d",d:[9],dl:"Day 9",desc:"「東北小奈良」！散養梅花鹿、馬鹿、羊駝，溫順可近距離互動。含電瓶車遊覽森林。",see:"<b>👀 必看</b>① 餵梅花鹿！超溫順會靠過來 ② 馬鹿和超萌羊駝 ③ 含電瓶車穿越森林 ④ 拍照超可愛",eat:"<b>🍽️ 當日</b>晚：鴿佬滙（平山）/花姐飯店（松北）",tip:"<b>💡 Tips</b>入口買鹿食(~10元)，用鹿食盤餵不要直接用手。"},
+{n:"太陽島·熊貓館",lat:45.793,lng:126.580,e:"🐼",c:"#2980b9",d:[10],dl:"Day 10",desc:"松花江上國家5A景區。熊貓館看雙胞胎「芝士」和「芝麻」！太陽島集濕地、歐陸風情與冰雪文化於一身。",see:"<b>👀 必看</b>① 雙胞胎大熊貓超萌！② 含電瓶車遊太陽島 ③ 歐式別墅（昔日俄國避暑地）④ 5月江景美",eat:"<b>🍽️ 當日</b>午：福成厚（老字號）｜晚：天肴飯店（旅程最後正式晚餐！）",tip:"<b>💡 Tips</b>太陽島很大電瓶車必要。熊貓館溫度舒適慢慢看。"},
+{n:"極地館",lat:45.790,lng:126.565,e:"🐧",c:"#2980b9",d:[10],dl:"Day 10",desc:"世界首座極地演藝遊樂園！五大場館七大表演，白鯨表演「海洋之心」聞名。近距離看北極熊企鵝。",see:"<b>👀 必看</b>① 白鯨「海洋之心」水中畫心形超浪漫！② 企鵝遊行入口免費 ③ 北極熊企鵝近距離 ④ 海豚秀海象脫口秀",eat:"",tip:"<b>💡 Tips</b>企鵝表演提前15分鐘到佔位！白鯨秀先到先得。"}
+];
+
+var RC=[[[45.625,126.245],[45.778,126.678]],[[45.778,126.678],[45.810,126.535],[45.838,126.528],[45.821,126.521]],[[45.778,126.678],[46.6,125.2],[47.345,123.968]],[[47.345,123.968],[47.208,124.249]],[[47.345,123.968],[47.8,124.8],[48.3,125.5],[48.745,126.085]],[[48.745,126.085],[48.733,126.102],[48.720,126.120]],[[48.720,126.120],[48.3,125.5],[47.5,125],[46.6,125.5],[45.778,126.678]],[[45.778,126.678],[45.770,126.635],[45.774,126.656],[45.771,126.651],[45.778,126.622]],[[45.778,126.678],[45.916,126.386]],[[45.778,126.678],[45.672,127.022]],[[45.778,126.678],[45.545,126.963],[45.430,127.115]],[[45.778,126.678],[45.793,126.580],[45.790,126.565]],[[45.778,126.678],[45.625,126.245]]];
+var RD=[1,2,3,3,4,4,5,6,7,8,9,10,11];
+
+var map=L.map('map',{zoomControl:false,attributionControl:false}).setView([47.0,126.0],7);
+L.control.attribution({position:'bottomright',prefix:false}).addAttribution('© <a href="https://www.openstreetmap.org/copyright" target="_blank">OSM</a>').addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(map);
+
+var RL=RC.map(function(c){return L.polyline(c,{color:'#c0392b',weight:3,opacity:.55,dashArray:'10 8'}).addTo(map)});
+var M=[],ML=L.layerGroup().addTo(map);
+
+S.forEach(function(s){
+  var sz=s.d.length>3?40:34;
+  var ic=L.divIcon({className:'',html:'<div class="cp2" style="width:'+sz+'px;height:'+sz+'px;background:'+s.c+';font-size:'+sz*.5+'px">'+s.e+'</div>',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],popupAnchor:[0,-sz/2-4]});
+  var sc='';
+  if(s.see)sc+='<div class="ps ps-s">'+s.see+'</div>';
+  if(s.eat)sc+='<div class="ps ps-e">'+s.eat+'</div>';
+  if(s.tip)sc+='<div class="ps ps-t">'+s.tip+'</div>';
+  var m=L.marker([s.lat,s.lng],{icon:ic}).bindPopup('<div><div class="ph" style="background:'+s.c+'"><div class="dt">'+s.dl+'</div><h3>'+s.e+' '+s.n+'</h3></div><div class="pb"><p>'+s.desc+'</p>'+sc+'</div></div>',{closeButton:true,maxWidth:320,minWidth:200,autoPanPadding:[20,60]});
+  m._sd=s;M.push(m);ML.addLayer(m);
+});
+
+var aD='all';
+function bF(){
+  var b=document.getElementById('fb');
+  var a=document.createElement('button');a.className='db on';a.textContent='全部';a.onclick=function(){fD('all')};b.appendChild(a);
+  for(var i=1;i<=11;i++){var x=document.createElement('button');x.className='db';x.textContent='D'+i;x.dataset.day=i;x.onclick=(function(d){return function(){fD(d)}})(i);b.appendChild(x)}
+}
+function fD(day){
+  aD=day;map.closePopup();
+  document.querySelectorAll('.db').forEach(function(b){if(day==='all')b.classList.toggle('on',b.textContent==='全部');else b.classList.toggle('on',Number(b.dataset.day)===day)});
+  ML.clearLayers();var v=[];
+  M.forEach(function(m){if(day==='all'||m._sd.d.indexOf(day)>-1){ML.addLayer(m);v.push(m)}});
+  RL.forEach(function(l,i){if(day==='all')l.setStyle({opacity:.55,weight:3});else if(RD[i]===day)l.setStyle({opacity:.75,weight:4});else l.setStyle({opacity:.08,weight:1.5})});
+  if(v.length>0&&day!=='all')map.fitBounds(L.featureGroup(v).getBounds().pad(.3),{maxZoom:13,animate:true});
+  else if(day==='all')map.flyTo([47.0,126.0],7,{duration:.5});
+}
+function resetMap(){fD('all')}
+bF();
+</script>
+</body>
+</html>
