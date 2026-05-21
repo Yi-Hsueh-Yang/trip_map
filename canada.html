@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>2026 加州・加拿大 旅遊計劃</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f7f5f0;
+    --accent: #c0392b;
+    --accent-soft: #e74c3c22;
+    --teal: #16a085;
+    --teal-soft: #16a08520;
+    --gold: #d4a029;
+    --gold-soft: #d4a02920;
+    --blue: #2980b9;
+    --blue-soft: #2980b920;
+    --purple: #8e44ad;
+    --purple-soft: #8e44ad20;
+    --muted: #6b6b7b;
+    --border: #e0ddd5;
+    --card: #ffffff;
+    --shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+
+  body {
+    font-family: 'Noto Sans TC', 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    position: relative;
+    padding: 72px 20px 52px;
+    text-align: center;
+    background: linear-gradient(165deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(22,160,133,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(212,160,41,0.1) 0%, transparent 50%);
+    animation: aurora 12s ease-in-out infinite alternate;
+  }
+  @keyframes aurora {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-5%, 3%) rotate(2deg); }
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  .hero .subtitle {
+    font-size: clamp(0.8rem, 2.5vw, 1.05rem);
+    font-weight: 300;
+    opacity: 0.8;
+    margin-bottom: 24px;
+    padding: 0 8px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: clamp(20px, 5vw, 40px);
+    flex-wrap: wrap;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .hero-stat .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.7;
+  }
+
+  /* ===== Sticky Nav ===== */
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247,245,240,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 12px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    justify-content: center;
+  }
+  .nav-bar::-webkit-scrollbar { display: none; }
+  .nav-pill {
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    transition: all 0.25s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-pill:hover, .nav-pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .nav-pill[data-section="banff"]:hover, .nav-pill[data-section="banff"].active { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+  .nav-pill[data-section="yellowknife"]:hover, .nav-pill[data-section="yellowknife"].active { border-color: var(--purple); color: var(--purple); background: var(--purple-soft); }
+  .nav-pill[data-section="vancouver"]:hover, .nav-pill[data-section="vancouver"].active { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+
+  /* ===== Main ===== */
+  .main { max-width: 860px; margin: 0 auto; padding: 32px 16px 80px; }
+
+  /* ===== Section Headers ===== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .section-header:first-child { margin-top: 0; }
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+    font-weight: 700;
+    flex: 1;
+    min-width: 0;
+  }
+  .section-header .date-range {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  /* ===== Day Cards ===== */
+  .day-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--border);
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .day-card.california { border-left-color: var(--accent); }
+  .day-card.banff { border-left-color: var(--teal); }
+  .day-card.yellowknife { border-left-color: var(--purple); }
+  .day-card.vancouver { border-left-color: var(--blue); }
+
+  .day-header {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .day-date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .day-card.california .day-date { background: var(--accent-soft); color: var(--accent); }
+  .day-card.banff .day-date { background: var(--teal-soft); color: var(--teal); }
+  .day-card.yellowknife .day-date { background: var(--purple-soft); color: var(--purple); }
+  .day-card.vancouver .day-date { background: var(--blue-soft); color: var(--blue); }
+  .day-title {
+    font-weight: 700;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .day-body {
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.8;
+  }
+  .day-body p { margin-bottom: 5px; }
+
+  /* ===== Tags ===== */
+  .tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-right: 3px;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  .tag.flight { background: #ffeaa7; color: #b58900; }
+  .tag.aurora { background: #a29bfe33; color: #6c5ce7; }
+  .tag.nature { background: #00b89433; color: #00897b; }
+  .tag.city { background: #74b9ff33; color: #2980b9; }
+  .tag.alert { background: #fab1a044; color: #c0392b; }
+
+  /* ===== Transit Card ===== */
+  .transit-card {
+    background: linear-gradient(135deg, #f8f9fa, #eef0f2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+  }
+  .transit-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .transit-card strong { color: var(--ink); }
+
+  /* ===== Alert Box ===== */
+  .alert-box {
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 0.84rem;
+    color: #c53030;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .alert-box .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* ===== Notes Section ===== */
+  .notes-section {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 24px 20px;
+    margin-top: 40px;
+    box-shadow: var(--shadow);
+  }
+  .notes-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+  }
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .note-item {
+    padding: 14px;
+    border-radius: 10px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+  }
+  .note-item h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .note-item p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center;
+    padding: 32px 16px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+
+  /* ===== Desktop ===== */
+  @media (min-width: 640px) {
+    .hero { padding: 80px 24px 60px; }
+    .main { padding: 40px 24px 80px; }
+    .day-card { padding: 24px 28px; }
+    .day-card:hover { transform: translateY(-2px); box-shadow: 0 4px 30px rgba(0,0,0,0.1); }
+    .notes-grid { grid-template-columns: repeat(2, 1fr); }
+    .section-header .date-range { margin-left: auto; }
+    .nav-bar { padding: 12px 24px; }
+    .transit-card { padding: 16px 24px; }
+  }
+  @media (min-width: 900px) {
+    .notes-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* ===== Mobile Specific ===== */
+  @media (max-width: 639px) {
+    .section-header { gap: 10px; }
+    .section-header .date-range { width: 100%; font-size: 0.75rem; }
+    .section-header h2 { font-size: 1.15rem; }
+    .day-header { gap: 6px; }
+    .day-title { width: 100%; font-size: 0.95rem; }
+    .nav-bar { justify-content: flex-start; padding: 8px 10px; }
+    .hero-stats { gap: 16px; }
+  }
+
+  /* ===== Print ===== */
+  @media print {
+    .nav-bar { display: none; }
+    .hero { padding: 32px 20px 24px; }
+    .hero::before { display: none; }
+    .day-card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .day-card:hover { transform: none; }
+    .notes-section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>🍁 加州 · 加拿大 秋日之旅</h1>
+    <p class="subtitle">2026.10.02 — 10.21 ｜ 台灣 → 加州 → 班夫 → 黃刀鎮 → 溫哥華 → 台灣</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">20</div><div class="label">天</div></div>
+      <div class="hero-stat"><div class="num">4</div><div class="label">城市</div></div>
+      <div class="hero-stat"><div class="num">3</div><div class="label">國家公園</div></div>
+      <div class="hero-stat"><div class="num">5</div><div class="label">段航班</div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav-bar" id="navBar">
+  <div class="nav-pill active" data-section="california" onclick="go('california')">🌴 加州</div>
+  <div class="nav-pill" data-section="banff" onclick="go('banff')">🏔️ 班夫</div>
+  <div class="nav-pill" data-section="yellowknife" onclick="go('yellowknife')">🌌 黃刀鎮</div>
+  <div class="nav-pill" data-section="vancouver" onclick="go('vancouver')">🌊 溫哥華</div>
+</nav>
+
+<div class="main">
+
+  <!-- ===== 加州 ===== -->
+  <div id="california">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--accent-soft);">🌴</div>
+      <h2>加州 California</h2>
+      <span class="date-range">10/2 (五) — 10/7 (三) · 6天</span>
+    </div>
+
+    <div class="day-card california">
+      <div class="day-header">
+        <span class="day-date">10/2 (五)</span>
+        <span class="tag flight">✈️ 飛行日</span>
+        <span class="day-title">台灣 → 加州</span>
+      </div>
+      <div class="day-body"><p>爸媽飛美國班機。抵達加州，入住休息，調整時差。</p></div>
+    </div>
+
+    <div class="day-card california">
+      <div class="day-header">
+        <span class="day-date">10/3 (六) — 10/7 (三)</span>
+        <span class="day-title">加州自由行</span>
+      </div>
+      <div class="day-body"><p>加州行程共 5 個完整天，依既定計劃安排。</p></div>
+    </div>
+  </div>
+
+  <!-- ===== 交通：加州→班夫 ===== -->
+  <div class="transit-card">
+    <span class="transit-icon">✈️</span>
+    <div><strong>10/8 (四)</strong> 加州 → 卡加利 → 班夫<br>搭早班機飛卡加利（約 3~4hr），機場租車或搭接駁到班夫（約 1.5hr 車程），下午抵達。</div>
+  </div>
+
+  <!-- ===== 班夫 ===== -->
+  <div id="banff">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--teal-soft);">🏔️</div>
+      <h2>班夫 & 路易斯湖</h2>
+      <span class="date-range">10/8 (四) — 10/12 (一) · 5天</span>
+    </div>
+
+    <div class="alert-box">
+      <span class="alert-icon">⚠️</span>
+      <div>
+        <strong>季節性關閉提醒</strong><br>
+        Moraine Lake Road 預計 <strong>10/13 (二)</strong> 關閉。Columbia Icefield & Skywalk 營運至 <strong>10/12 (一)</strong>。請優先安排！
+      </div>
+    </div>
+
+    <div class="day-card banff">
+      <div class="day-header">
+        <span class="day-date">10/8 (四)</span>
+        <span class="tag flight">✈️ 飛行日</span>
+        <span class="day-title">抵達班夫・小鎮散步</span>
+      </div>
+      <div class="day-body">
+        <p>下午抵達班夫，漫步 Banff Avenue。</p>
+        <p>🔹 Surprise Corner — 看 Bow River 夕陽</p>
+        <p>晚餐享受班夫鎮上餐廳。</p>
+      </div>
+    </div>
+
+    <div class="day-card banff">
+      <div class="day-header">
+        <span class="day-date">10/9 (五)</span>
+        <span class="tag nature">🏔️ 必去</span>
+        <span class="tag alert">⏰ 10/12前</span>
+        <span class="day-title">冰原大道一日遊</span>
+      </div>
+      <div class="day-body">
+        <p>一早出發走 Icefields Parkway，沿途停靠：</p>
+        <p>🔹 Bow Lake — 碧綠湖水倒映山峰</p>
+        <p>🔹 Peyto Lake — 經典狐狸形湖泊觀景台</p>
+        <p>🔹 Columbia Icefield — 搭冰原探險車登上冰川</p>
+        <p>🔹 Glacier Skywalk — 懸空 280m 的玻璃步道</p>
+        <p>全程來回需整天，建議一早出發。</p>
+      </div>
+    </div>
+
+    <div class="day-card banff">
+      <div class="day-header">
+        <span class="day-date">10/10 (六)</span>
+        <span class="tag nature">💎 必去</span>
+        <span class="tag alert">⏰ 10/13關閉</span>
+        <span class="day-title">路易斯湖 & Moraine Lake</span>
+      </div>
+      <div class="day-body">
+        <p>🔹 Lake Louise — 翡翠色冰川湖，沿湖散步或 Fairmont 下午茶</p>
+        <p>🔹 Moraine Lake — 搭接駁車前往，建議訂 sunrise shuttle</p>
+        <p>⚡ 接駁車票務必提前在 Parks Canada 官網預訂！私人車輛全年禁止進入。</p>
+      </div>
+    </div>
+
+    <div class="day-card banff">
+      <div class="day-header">
+        <span class="day-date">10/11 (日)</span>
+        <span class="tag nature">🏔️ 自然</span>
+        <span class="day-title">班夫鎮區經典行程</span>
+      </div>
+      <div class="day-body">
+        <p>🔹 Sulphur Mountain 纜車 — 登頂俯瞰 Bow Valley 全景</p>
+        <p>🔹 Banff Upper Hot Springs — 山頂天然溫泉</p>
+        <p>🔹 Bow Falls — 弓河瀑布，步行可達</p>
+        <p>🔹 Johnston Canyon — 峽谷步道看瀑布（來回 2~3hr）</p>
+      </div>
+    </div>
+
+    <div class="day-card banff">
+      <div class="day-header">
+        <span class="day-date">10/12 (一)</span>
+        <span class="tag nature">🏔️ 自然</span>
+        <span class="day-title">Minnewanka 湖 & 彈性日</span>
+      </div>
+      <div class="day-body">
+        <p>🔹 Lake Minnewanka — 班夫最大湖泊，遊船或環湖步道</p>
+        <p>🔹 Two Jack Lake — 秋色倒影攝影聖地</p>
+        <p>🔹 Vermilion Lakes — 落日絕美</p>
+        <p>也可補前幾天因天氣錯過的景點。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 交通：班夫→黃刀 ===== -->
+  <div class="transit-card">
+    <span class="transit-icon">✈️</span>
+    <div><strong>10/13 (二)</strong> 班夫 → 卡加利機場 → 黃刀鎮<br>上午開車至卡加利機場（1.5hr），飛黃刀鎮（約 2.5hr）。傍晚抵達，晚上即可追極光！</div>
+  </div>
+
+  <!-- ===== 黃刀鎮 ===== -->
+  <div id="yellowknife">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--purple-soft);">🌌</div>
+      <h2>黃刀鎮 Yellowknife</h2>
+      <span class="date-range">10/13 (二) — 10/16 (五) · 4天</span>
+    </div>
+
+    <div class="day-card yellowknife">
+      <div class="day-header">
+        <span class="day-date">10/13 (二)</span>
+        <span class="tag flight">✈️ 飛行日</span>
+        <span class="tag aurora">🌌 極光</span>
+        <span class="day-title">抵達黃刀鎮・首夜極光</span>
+      </div>
+      <div class="day-body">
+        <p>傍晚抵達，入住休息。</p>
+        <p>晚上 21:00~02:00 參加極光導覽團，前往遠離光害的觀測點。</p>
+        <p>💡 最佳觀測時段 22:00~02:00，建議提早報名。</p>
+      </div>
+    </div>
+
+    <div class="day-card yellowknife">
+      <div class="day-header">
+        <span class="day-date">10/14 (三)</span>
+        <span class="tag aurora">🌌 極光</span>
+        <span class="day-title">日間活動 + 極光</span>
+      </div>
+      <div class="day-body">
+        <p>🔹 Old Town 老城區 — 彩色船屋、Pilot's Monument 觀景台</p>
+        <p>🔹 Prince of Wales Northern Heritage Centre — 北方原住民文化</p>
+        <p>🔹 Great Slave Lake 湖畔漫步</p>
+        <p>晚上繼續追極光 🌌</p>
+      </div>
+    </div>
+
+    <div class="day-card yellowknife">
+      <div class="day-header">
+        <span class="day-date">10/15 (四)</span>
+        <span class="tag aurora">🌌 極光</span>
+        <span class="day-title">自由日 + 極光</span>
+      </div>
+      <div class="day-body">
+        <p>白天可安排獨木舟、釣魚、Bush Pilot's Monument 觀景。</p>
+        <p>下午早些休息，迎接第三晚極光。三晚觀測看到極光的機率超過 90%！</p>
+      </div>
+    </div>
+
+    <div class="day-card yellowknife">
+      <div class="day-header">
+        <span class="day-date">10/16 (五)</span>
+        <span class="tag flight">✈️ 飛行日</span>
+        <span class="day-title">黃刀鎮 → 溫哥華</span>
+      </div>
+      <div class="day-body">
+        <p>搭機前往溫哥華（直飛約 2.5~3hr）。</p>
+        <p>💡 10/16 為週五，Air North 有直飛！Air Canada 每日也有航班。</p>
+        <p>傍晚抵達溫哥華，晚上到 Gastown 走走吃晚餐。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 溫哥華 ===== -->
+  <div id="vancouver">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--blue-soft);">🌊</div>
+      <h2>溫哥華 Vancouver</h2>
+      <span class="date-range">10/16 (五) — 10/21 (三) · 5天</span>
+    </div>
+
+    <div class="day-card vancouver">
+      <div class="day-header">
+        <span class="day-date">10/17 (六)</span>
+        <span class="tag city">🏙️ 市區</span>
+        <span class="day-title">溫哥華市區精華</span>
+      </div>
+      <div class="day-body">
+        <p>🔹 Stanley Park — 騎單車環島或 Seawall 步道</p>
+        <p>🔹 Gastown — 蒸汽鐘、文青小店</p>
+        <p>🔹 Granville Island — 公共市場、手工藝品、美食</p>
+        <p>🔹 Canada Place — 海濱步道，港口與北岸山景</p>
+      </div>
+    </div>
+
+    <div class="day-card vancouver">
+      <div class="day-header">
+        <span class="day-date">10/18 (日)</span>
+        <span class="tag nature">🌲 自然</span>
+        <span class="day-title">北溫哥華自然體驗</span>
+      </div>
+      <div class="day-body">
+        <p>🔹 Capilano Suspension Bridge — 137m 懸索吊橋，秋色絕美</p>
+        <p>🔹 Grouse Mountain — 纜車登頂俯瞰市全景</p>
+        <p>🔹 Deep Cove — Honey Doughnuts 知名甜甜圈</p>
+      </div>
+    </div>
+
+    <div class="day-card vancouver">
+      <div class="day-header">
+        <span class="day-date">10/19 (一)</span>
+        <span class="tag nature">🌲 自然</span>
+        <span class="day-title">近郊一日遊</span>
+      </div>
+      <div class="day-body">
+        <p>擇一安排：</p>
+        <p>🔹 <strong>Whistler</strong> — Sea-to-Sky Highway 全球最美公路之一，沿途 Shannon Falls、Britannia Mine Museum（車程 2hr）</p>
+        <p>🔹 <strong>Victoria</strong> — 搭渡輪到溫哥華島，Butchart Gardens、BC 省議會、Inner Harbour（需整天）</p>
+      </div>
+    </div>
+
+    <div class="day-card vancouver">
+      <div class="day-header">
+        <span class="day-date">10/20 (二)</span>
+        <span class="tag city">🛍️ 購物</span>
+        <span class="day-title">輕鬆日・美食購物</span>
+      </div>
+      <div class="day-body">
+        <p>🔹 Richmond 列治文 — 加拿大最密集亞洲美食，Aberdeen Centre、T&T 超市買伴手禮</p>
+        <p>🔹 Robson Street — 溫哥華主要購物街</p>
+        <p>🔹 Metrotown — 大型購物中心</p>
+        <p>最後一晚輕鬆享受，打包行李。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 回程 ===== -->
+  <div class="transit-card">
+    <span class="transit-icon">✈️</span>
+    <div><strong>10/21 (三)</strong> 溫哥華 → 台灣<br>搭機返回台灣（10/22 抵達）。旅程完美結束 🎉</div>
+  </div>
+
+  <!-- ===== 備忘錄 ===== -->
+  <div class="notes-section">
+    <h3>📋 行前備忘錄</h3>
+    <div class="notes-grid">
+      <div class="note-item">
+        <h4>🎫 必訂票券</h4>
+        <p>Moraine Lake 接駁車（Parks Canada 預訂）、Columbia Icefield 門票、Capilano 吊橋門票、極光導覽團（至少 3 晚）</p>
+      </div>
+      <div class="note-item">
+        <h4>🚗 租車安排</h4>
+        <p>卡加利機場取車 → 班夫 → 卡加利機場還車。溫哥華市區搭大眾運輸，不需租車。</p>
+      </div>
+      <div class="note-item">
+        <h4>🎒 國家公園通行證</h4>
+        <p>進班夫需購買 Parks Canada Discovery Pass 或日票。6 天以上建議買年票。</p>
+      </div>
+      <div class="note-item">
+        <h4>🧥 十月穿著</h4>
+        <p>班夫 0~10°C・黃刀鎮 -5~5°C・溫哥華 8~14°C。洋蔥式穿搭，黃刀需厚外套、手套、帽子。</p>
+      </div>
+      <div class="note-item">
+        <h4>✈️ 航班摘要</h4>
+        <p>① 台灣→加州 ② 加州→卡加利 ③ 卡加利→黃刀鎮 ④ 黃刀鎮→溫哥華 ⑤ 溫哥華→台灣</p>
+      </div>
+      <div class="note-item">
+        <h4>💡 注意事項</h4>
+        <p>加拿大需 eTA 電子旅行授權（台灣護照適用）。10月部分景點季節性關閉，請留意官方公告。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">2026 秋日之旅 · 家族旅行計劃</div>
+
+<script>
+  function go(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Active pill on scroll
+  const secs = ['california','banff','yellowknife','vancouver'];
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+        const pill = document.querySelector(`.nav-pill[data-section="${e.target.id}"]`);
+        if (pill) {
+          pill.classList.add('active');
+          // Auto-scroll nav on mobile
+          pill.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+        }
+      }
+    });
+  }, { rootMargin: '-80px 0px -60% 0px' });
+  secs.forEach(id => { const el = document.getElementById(id); if(el) obs.observe(el); });
+
+  // Stagger card animations
+  document.querySelectorAll('.day-card').forEach((c,i) => { c.style.animationDelay = `${i*0.06}s`; });
+</script>
+
+</body>
+</html>
